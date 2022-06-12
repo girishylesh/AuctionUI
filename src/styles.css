@@ -1,0 +1,32 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+body {
+   margin: 0;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;}
+
+.error-message{
+    margin: 10px;
+    color: red;
+}
+
+.submit-message{
+    margin: 10px;
+    color: green;
+}
+  
+.login-form, .register-form, .user-form{
+    text-align: center;
+    width: 100%;
+}
+
+@media screen and (min-width: 600px) {
+    .login-form-width, .register-form-width, .user-form-width, .booking-form-width, .vehicle-form-width{
+        width: 25%;
+    }
+}
+
+.app-label {
+    cursor: pointer;
+}

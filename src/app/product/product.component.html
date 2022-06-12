@@ -1,0 +1,109 @@
+<div class="product-container">
+    <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <mat-icon>shopping_basket</mat-icon>
+                &nbsp; Add Products
+            </mat-panel-title>
+            
+        </mat-expansion-panel-header>
+        <mat-divider></mat-divider>
+        <div class="product-form">
+            <form [formGroup]="productForm" (ngSubmit)="productSubmit()">
+                <div>
+                    <mat-form-field class="product-form-width">
+                        <input required matInput class="name" id="name" placeholder="Product Name"
+                            formControlName="name">
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field class="product-form-width">
+                        <input required matInput class="shortDesc" id="shortDesc" placeholder="Short Desc"
+                            formControlName="shortDesc">
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field class="product-form-width">
+                        <input required matInput class="detailedDesc" id="detailedDesc" placeholder="Detailed Desc"
+                            formControlName="detailedDesc">
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field class="product-form-width">
+                        <input required matInput class="startingPrice" id="startingPrice" placeholder="Starting Price"
+                            formControlName="startingPrice">
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field class="product-form-width">
+                            <mat-select required name="category" placeholder="Select category" formControlName="category">
+                                <mat-option>None</mat-option>
+                                <mat-option *ngFor="let category of categories" [value]="category">
+                                    {{ category }}
+                                </mat-option>
+                            </mat-select>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field class="product-form-width">
+                        <input required matInput [matDatepicker]="picker" formControlName="bidEndDate" placeholder="Bid End Date" id="bidEndDate">
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <br/>
+                <div>
+                    <button type="button" mat-raised-button color="primary" [disabled]="!productForm.valid" (click)="productSubmit()">Add</button>
+                </div>
+            </form>
+        </div>
+    </mat-expansion-panel>
+</div>
+
+<div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Product Name </th>
+            <td mat-cell *matCellDef="let product"> {{product.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="shortDesc">
+            <th mat-header-cell *matHeaderCellDef> Short Desc </th>
+            <td mat-cell *matCellDef="let product"> {{product.shortDesc}} </td>
+        </ng-container>
+        <ng-container matColumnDef="detailedDesc">
+            <th mat-header-cell *matHeaderCellDef> Detailed Desc </th>
+            <td mat-cell *matCellDef="let product"> {{product.detailedDesc}} </td>
+        </ng-container>
+        <ng-container matColumnDef="startingPrice">
+            <th mat-header-cell *matHeaderCellDef> Starting Price </th>
+            <td mat-cell *matCellDef="let product"> {{product.startingPrice}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef> Category </th>
+            <td mat-cell *matCellDef="let product"> {{product.category}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="bidEndDate">
+            <th mat-header-cell *matHeaderCellDef> Bid End Date </th>
+            <td mat-cell *matCellDef="let product"> {{product.bidEndDate}} </td>
+        </ng-container>
+        <ng-container matColumnDef="placebid">
+            <th mat-header-cell *matHeaderCellDef> Action </th>
+            <td mat-cell *matCellDef="let product">
+                    <!--<button mat-menu-item  (click)="cancelBooking(booking.bookingNumber)" *ngIf="!booking.cancelled && !booking.tripCompleted"> 
+                            <mat-icon matTooltip="Cancel Booking">cancel</mat-icon>
+                    </button>-->
+                    <mat-chip-list>
+                            <mat-chip color="primary" selected (click)="placeBid(product)">Bid</mat-chip>
+                    </mat-chip-list>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>

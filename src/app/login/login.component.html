@@ -1,0 +1,57 @@
+<app-header></app-header>
+<mat-progress-bar mode="buffer" *ngIf="showSpinner"></mat-progress-bar>
+<div class="main">
+    <div class="login-form" *ngIf="toggleDiv">
+    <form [formGroup]="loginForm" (ngSubmit)="loginSubmit()">
+        <div>
+            <mat-form-field class="login-form-width">
+                <input required matInput class ="userId" id="userId" placeholder="Enter your username" formControlName ="userId">
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field class="login-form-width">
+                <input required matInput type="password" class ="userPassword" id="userPassword" placeholder="Enter your password" formControlName ="userPassword">
+            </mat-form-field>
+        </div>
+        <div>        
+            <button type="submit" mat-raised-button color="primary" [disabled]="!loginForm.valid" class="btn-space">Login</button>
+            <button type="button" mat-raised-button color="secondary" (click)="showHideContent()" >Register</button>
+        </div>
+    </form>
+    </div>
+    <div class="register-form" *ngIf="!toggleDiv">
+    <form [formGroup]="registerForm" (ngSubmit)="registerSubmit()">
+        <!-- <div>
+            <mat-form-field class="register-form-width">
+                <input required matInput class ="firstName" id="firstName" placeholder="Enter your first name" formControlName ="firstName">
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field class="register-form-width">
+                <input required matInput class ="lastName" id="lastName" placeholder="Enter your last name" formControlName ="lastName">
+            </mat-form-field>
+        </div> -->
+        <div>
+            <mat-form-field class="register-form-width">
+                <input email required matInput class ="userId" id="userId" placeholder="Enter your email as username" formControlName ="userId">
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field class="register-form-width">
+                <input required matInput type="password" class ="userPassword" id="userPassword" placeholder="Enter your password" formControlName ="userPassword" >
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field class="register-form-width">
+                <input required matInput type="password" class ="confirmPassword" id="confirmPassword" placeholder="Confirm password" formControlName ="confirmPassword" (input)="onPasswordInput()">
+                <mat-error *ngIf="confirmPassword.hasError('required')">Please confirm your password</mat-error>
+                <mat-error *ngIf="confirmPassword.invalid && !confirmPassword.hasError('required')">Passwords don't match</mat-error>
+            </mat-form-field>
+        </div>
+        <div>
+            <button type="submit" mat-raised-button color="primary" [disabled]="!registerForm.valid" class="btn-space">Register</button>
+            <button type="button" mat-raised-button color="secondary" (click)="showHideContent()" class="btn-space">Back to login</button>
+        </div>
+    </form>
+    </div>
+</div>

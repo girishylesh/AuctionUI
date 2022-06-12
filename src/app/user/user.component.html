@@ -1,0 +1,65 @@
+<app-header></app-header>
+<mat-toolbar>
+  <span *ngIf="regComplete">User Details</span>
+  <span *ngIf="!regComplete">Complete Registration</span>
+</mat-toolbar>
+<mat-progress-bar mode="indeterminate" *ngIf="showSpinner"></mat-progress-bar>
+<label class="submit-message">{{ submitMessage }}</label>
+<div class="user-form">
+  <form [formGroup]="userForm" (ngSubmit)="userSubmit()">   
+      <div>
+          <mat-form-field class="user-form-width">
+              <input required matInput class ="firstName" id="firstName" placeholder="Enter your first name" formControlName ="firstName">
+          </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="user-form-width">
+            <input required matInput class ="lastName" id="lastName" placeholder="Enter your last name" formControlName ="lastName">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="user-form-width">
+            <input required matInput class ="address" id="address" placeholder="Enter your address" formControlName ="address">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="user-form-width">
+            <input required matInput class ="city" id="city" placeholder="Enter your city" formControlName ="city">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="user-form-width">
+            <input matInput class ="state" id="state" placeholder="Enter your state" formControlName ="state">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="user-form-width">
+            <input required matInput class ="pin" id="pin" placeholder="Enter your pin" formControlName ="pin">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="user-form-width">
+            <input matInput class ="phone" id="phone" placeholder="Enter your phone" formControlName ="phone">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="user-form-width">
+            <input required matInput class ="email" id="email" placeholder="Enter your email" formControlName ="email">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="user-form-width">
+            <mat-select required name="userType" placeholder="Select user type" formControlName="userType">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let type of types" [value]="type">
+                    {{ type }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+      <div>
+        <button *ngIf="!regComplete" type="submit" mat-raised-button color="primary" class="btn-space">Complete Registration</button>
+        <button *ngIf="regComplete" type="button" mat-raised-button color="secondary" routerLink="/dashboard">Back</button>
+      </div>     
+  </form>
+</div>
