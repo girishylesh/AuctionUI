@@ -1,5 +1,6 @@
+<mat-progress-bar mode="indeterminate" *ngIf="showSpinner"></mat-progress-bar>
 <div class="product-container">
-    <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel [expanded]="true" *ngIf="isSeller">
         <mat-expansion-panel-header>
             <mat-panel-title>
                 <mat-icon>shopping_basket</mat-icon>
@@ -62,6 +63,9 @@
 </div>
 
 <div>
+    <mat-toolbar *ngIf="isBuyer">
+        <span>Product List</span>
+    </mat-toolbar>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
         <ng-container matColumnDef="name">
@@ -91,7 +95,7 @@
             <th mat-header-cell *matHeaderCellDef> Bid End Date </th>
             <td mat-cell *matCellDef="let product"> {{product.bidEndDate}} </td>
         </ng-container>
-        <ng-container matColumnDef="placebid">
+        <ng-container matColumnDef="placebid" *ngIf="isBuyer">
             <th mat-header-cell *matHeaderCellDef> Action </th>
             <td mat-cell *matCellDef="let product">
                     <!--<button mat-menu-item  (click)="cancelBooking(booking.bookingNumber)" *ngIf="!booking.cancelled && !booking.tripCompleted"> 

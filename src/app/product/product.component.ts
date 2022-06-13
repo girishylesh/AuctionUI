@@ -18,13 +18,20 @@ export class ProductComponent implements OnInit {
 
   productsArr: Array<Product> = [];
   errorMessage: string;
-  submitMessage: string;
   categories: string[] = ['PAINTING', 'SCULPTOR', 'ORNAMENT'];
-  displayedColumns: string[] = ['name','shortDesc', 'detailedDesc', 'startingPrice', 'category', 'bidEndDate', 'placebid'];
-  
+  displayedColumns: string[] = ['name','shortDesc', 'detailedDesc', 'startingPrice', 'category', 'bidEndDate'];
+  isSeller: boolean;
+  isBuyer: boolean;
+
   constructor(private authService: AuthenticationService, private routerService: RouterService,
     private auctionService: AuctionService,  private _snackBar: MatSnackBar, private datepipe: DatePipe,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog) { 
+      this.isSeller = auctionService.isSeller();
+      this.isBuyer = auctionService.isBuyer();
+      if(this.isBuyer) {
+        this.displayedColumns.push('placebid');
+      }
+    }
   
   productForm: FormGroup = new FormGroup(
     {
@@ -84,7 +91,6 @@ export class ProductComponent implements OnInit {
   }
 
   placeBid(product: any) {
-    console.log(product);
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
@@ -94,9 +100,22 @@ export class ProductComponent implements OnInit {
     const dialogRef = this.dialog.open(BiddialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(
-      data => console.log("Dialog output:", data)
+      data => {
+        let bid = {
+          bidAmount: data['bidAmount'],
+          productUid: product['uid'],
+          userUid: this.authService.getCurrentUserId()
+        }
+        this.auctionService.placeBid(bid).subscribe(
+          data => {
+            this.openSnackBar("Bid placed.","Close");
+          },
+          error => {
+            this.errorMessage = error.status + " : " + error.error;
+            this.openSnackBar(this.errorMessage,"Close");
+          }
+        );
+      }    
     );
-
   }
-
 }

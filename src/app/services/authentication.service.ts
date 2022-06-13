@@ -32,9 +32,10 @@ export class AuthenticationService {
     localStorage.setItem('currentUser', user);
   }
 
-  setCurrentUserId(userId: any)
+  setCurrentUserDetail(userId: string, userType: string)
   {
     localStorage.setItem('currentUserId', userId);
+    localStorage.setItem('currentUserType', userType);
   }
 
   getBearerToken() {
@@ -49,6 +50,10 @@ export class AuthenticationService {
     return localStorage.getItem('currentUserId');
   }
 
+  getCurrentUserType() {
+    return localStorage.getItem('currentUserType');
+  }
+  
   removeUserData() {
     localStorage.removeItem('bearerToken');
     localStorage.removeItem('currentUser');
@@ -80,6 +85,6 @@ export class AuthenticationService {
   }
 
   getHeaders() {
-     return new HttpHeaders().set('content-type', 'application/json').set('Authorization', this.getBearerToken());
+     return new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', this.getBearerToken());
   }
 }

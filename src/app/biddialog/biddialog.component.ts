@@ -25,7 +25,6 @@ export class BiddialogComponent implements OnInit {
 
   save() {
     const {value, valid} = this.bidForm;
-    console.log(valid);
     if(valid) {
         this.dialogRef.close(value);
     }

@@ -88,7 +88,7 @@ export class LoginComponent implements OnInit {
       this.showSpinner=false;
       this.auctionService.getUser().subscribe(
         data => {
-          this.authService.setCurrentUserId(data['uid']);
+          this.authService.setCurrentUserDetail(data['uid'], data['userType']);
           this.routerService.routeToDashboard();
         },
         error => {

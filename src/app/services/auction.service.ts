@@ -22,7 +22,8 @@ export class AuctionService {
 
   addAuctionUser(data: any) {
     return this.httpClient.post(`${environment.apiEndpoint}/cmd/add-user`, data, {
-      headers: this.authService.getHeaders()
+      headers: this.authService.getHeaders(),
+      responseType: 'text'
     });
   }
 
@@ -41,26 +42,34 @@ export class AuctionService {
 
   placeBid(data: any) {
     return this.httpClient.post(`${environment.apiEndpoint}/cmd/buyer/place-bid`, data, {
+      headers: this.authService.getHeaders(),
+      responseType: 'text'
+    });
+  }
+
+  updateBid(productId: string, buyerEmail: string, bidAmount: Number) {
+    return this.httpClient.put(`${environment.apiEndpoint}/cmd/update-bid/${productId}/${buyerEmail}/${bidAmount}`, {
       headers: this.authService.getHeaders()
     });
   }
 
-  updateBid(productId: Number, buyerEmail: String, bidAmount: Number, data: any) {
-    return this.httpClient.put(`${environment.apiEndpoint}/cmd/update-bid/${productId}/${buyerEmail}/${bidAmount}`, data, {
-      headers: this.authService.getHeaders()
-    });
-  }
-
-  getBids(productId: Number) {
-    return this.httpClient.get<Array<ProductBid>>(`${environment.apiEndpoint}/query/seller/show-bids/${productId}`, {
+  getBids(userId: String) {
+    return this.httpClient.get<Array<ProductBid>>(`${environment.apiEndpoint}/query/show-bids/${userId}`, {
       headers: this.authService.getHeaders()
     });
   }
 
   getProducts() {
-    return this.httpClient.get<Array<Product>>(`${environment.apiEndpoint}/query/seller/products/${this.authService.getCurrentUserId()}`, {
+    return this.httpClient.get<Array<Product>>(`${environment.apiEndpoint}/query/products/${this.authService.getCurrentUserId()}`, {
       headers: this.authService.getHeaders()
     });
   }
 
+  isSeller() {
+    return this.authService.getCurrentUserType() === 'SELLER';
+  }
+
+  isBuyer() {
+    return this.authService.getCurrentUserType() === 'BUYER';
+  }
 }

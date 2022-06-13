@@ -6,6 +6,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { CanActivateRouteGuard} from './can-activate-route.guard';
 import { UserComponent } from './user/user.component';
 import { ProductComponent } from './product/product.component';
+import { BidsComponent } from './bids/bids.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,10 @@ const routes: Routes = [
       {
         path: 'product',
         component: ProductComponent
+      },
+      {
+        path: 'bids',
+        component: BidsComponent
       }
     ]
   },
