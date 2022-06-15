@@ -66,9 +66,10 @@ export class LoginComponent implements OnInit {
     this.showSpinner=true;
     this.authService.authenticateUser(this.loginForm.value).subscribe(
       data => {
+        this.errorMessage = '';
         this.authService.setBearerToken(data['token']);
         this.authService.setCurrentUser(data['currentUser']);
-        this.authService.isUserLoggedIn.next(true);
+        this.authService.isUserLoggedIn.next(true);       
       },
       error => {
         if (error.status === 401) {
@@ -85,16 +86,25 @@ export class LoginComponent implements OnInit {
         this.openSnackBar(this.errorMessage,"Close");
       }
     ).add(() => {
-      this.showSpinner=false;
-      this.auctionService.getUser().subscribe(
-        data => {
-          this.authService.setCurrentUserDetail(data['uid'], data['userType']);
-          this.routerService.routeToDashboard();
-        },
-        error => {
-          this.routerService.routeToUser();
-        }
-      );
+      this.showSpinner = false;
+      if(this.errorMessage === '') {
+        this.showSpinner = true;
+        this.auctionService.getUser().subscribe(
+          data => {
+            this.authService.setCurrentUserDetail(data['uid'], data['userType']);
+            this.routerService.routeToDashboard();
+          },
+          error => {
+            if (error.status === 404) {
+              this.routerService.routeToUser();
+            } else {
+              this.openSnackBar(error.message,"Close");
+            }
+          }
+        ).add(() => {
+          this.showSpinner = false;
+        });
+      }
     });
   }
 

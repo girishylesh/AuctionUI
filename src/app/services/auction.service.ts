@@ -34,9 +34,10 @@ export class AuctionService {
     });
   }
 
-  deleteUser(productId: Number) {
-    return this.httpClient.delete(`${environment.apiEndpoint}/user/auth/user/${productId}`, {
-      headers: this.authService.getHeaders()
+  deleteProduct(productUid: string) {
+    return this.httpClient.delete(`${environment.apiEndpoint}/cmd/seller/delete/${productUid}`, {
+      headers: this.authService.getHeaders(),
+      responseType: 'text'
     });
   }
 
@@ -48,8 +49,9 @@ export class AuctionService {
   }
 
   updateBid(productId: string, buyerEmail: string, bidAmount: Number) {
-    return this.httpClient.put(`${environment.apiEndpoint}/cmd/update-bid/${productId}/${buyerEmail}/${bidAmount}`, {
-      headers: this.authService.getHeaders()
+    return this.httpClient.put(`${environment.apiEndpoint}/cmd/buyer/update-bid/${productId}/${buyerEmail}/${bidAmount}`, {}, {
+      headers: this.authService.getHeaders(),
+      responseType: 'text'
     });
   }
 

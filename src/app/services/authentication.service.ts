@@ -58,6 +58,7 @@ export class AuthenticationService {
     localStorage.removeItem('bearerToken');
     localStorage.removeItem('currentUser');
     localStorage.removeItem('currentUserId');
+    localStorage.removeItem('currentUserType');
   }
 
   isLoggedInUser() {
@@ -79,7 +80,7 @@ export class AuthenticationService {
   isUserAuthenticated(token: any): Promise<boolean> {
 
   //check if token available
-   const flag=(token)?true:false;
+   const flag=(this.isLoggedInUser())?true:false;
    return new Promise(function(resolve,reject){resolve(flag)});
 
   }

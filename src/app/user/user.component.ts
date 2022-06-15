@@ -5,6 +5,7 @@ import { RouterService } from '../services/router.service';
 import { User } from '../models/user';
 import { AuctionService } from '../services/auction.service';
 import { MatSnackBar } from '@angular/material';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user',
@@ -14,7 +15,6 @@ import { MatSnackBar } from '@angular/material';
 export class UserComponent implements OnInit {
 
   user: User;
-  submitMessage: string;
   errorMessage: string;
   showSpinner: boolean;
   types: string[] = ['SELLER', 'BUYER'];
@@ -27,8 +27,8 @@ export class UserComponent implements OnInit {
       state: new FormControl(),
       city: new FormControl(),
       pin: new FormControl(),
-      phone: new FormControl(),
-      email: new FormControl({value: '', disabled: true}, Validators.required),
+      phone: new FormControl({value: '', disabled: false}, [Validators.required, Validators.pattern('^[0-9]*$')]),
+      email: new FormControl({value: '', disabled: true}, Validators.email),
       userType: new FormControl()
     }
   );
@@ -79,7 +79,8 @@ export class UserComponent implements OnInit {
     this.showSpinner=true;
     this.auctionService.addAuctionUser(this.userForm.getRawValue()).subscribe(
       data => {
-        this.submitMessage="User registration completed"
+        this.openSnackBar("User registration completed","Close");
+        this.errorMessage = '';
       },
       error => {
         if (error.status === 400) {
@@ -91,17 +92,22 @@ export class UserComponent implements OnInit {
         }
         this.openSnackBar(this.errorMessage,"Close");
       }
-    ).add(() => {
+    ).add( () => {
       this.showSpinner=false;
-      this.auctionService.getUser().subscribe(
-        data => {
-          this.authService.setCurrentUserDetail(data['uid'], data['userType']);
-          this.routerService.routeToDashboard();
-        },
-        error => {
-          this.routerService.routeToUser();
-        }
-      );
+      if(this.errorMessage === '') {
+        delay(2000);
+        this.auctionService.getUser().subscribe(
+          data => {
+            this.authService.setCurrentUserDetail(data['uid'], data['userType']);
+            this.routerService.routeToDashboard();
+          },
+          error => {
+            this.authService.removeUserData();
+            this.routerService.routeToLogin();
+          }
+        );
+      }
+
     });
   }
 

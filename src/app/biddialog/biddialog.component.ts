@@ -12,11 +12,16 @@ export class BiddialogComponent implements OnInit {
   
   constructor(private bf: FormBuilder,
     private dialogRef: MatDialogRef<BiddialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data) { 
-
+    @Inject(MAT_DIALOG_DATA) data: any) { 
+      let bidAmt: number;
+      if(data['isUpdate']) {
+        bidAmt = data['bidAmount']
+      } else {
+        bidAmt = data['startingPrice']
+      }
       this.bidForm = bf.group({
-        productName:  new FormControl({value: data['name'], disabled: true}, [Validators.required, Validators.pattern("^[0-9]*$")]),
-        bidAmount: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")])
+        productName:  new FormControl({value: data['name'], disabled: true}, [Validators.required]),
+        bidAmount: new FormControl({value: bidAmt, disabled: false}, [Validators.required, Validators.pattern('^[0-9]*$')])
       });
   }
 

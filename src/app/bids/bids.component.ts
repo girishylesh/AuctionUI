@@ -23,6 +23,7 @@ export class BidsComponent implements OnInit {
   displayedColumns: string[] = ['sellerName', 'productName', 'bidEndDate', 'startingPrice', 'bidAmount'];
   isSeller: boolean;
   isBuyer: boolean;
+  showSpinner: Boolean = false;
 
   constructor(private authService: AuthenticationService, private routerService: RouterService,
     private auctionService: AuctionService,  private _snackBar: MatSnackBar, private datepipe: DatePipe,
@@ -35,19 +36,7 @@ export class BidsComponent implements OnInit {
     }
 
     ngOnInit() {
-      this.auctionService.getBids(this.authService.getCurrentUserId()).subscribe(
-        data => {
-          console.log(data);
-          this.bids = data['bids'];
-          this.product = data['product'];
-          this.dataSource.data=this.bids;
-        },
-        error => {
-          this.errorMessage = error.message;
-          this.bids = [];
-          this.dataSource.data=this.bids;
-        }
-      );
+      this.loadBids();
     }
 
     openSnackBar(message: string, action: string) {
@@ -56,27 +45,52 @@ export class BidsComponent implements OnInit {
       });
     }
   
-    updateBid(product: any) {
+    updateBid(bid: any) {
       const dialogConfig = new MatDialogConfig();
-  
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
+      let product = bid['product'];
+      product['isUpdate'] = true;
+      product['bidAmount'] = bid['bidAmount'];
       dialogConfig.data = product;
   
       const dialogRef = this.dialog.open(BiddialogComponent, dialogConfig);
   
       dialogRef.afterClosed().subscribe(
         data => {
-          this.auctionService.updateBid(product['uid'], this.authService.getCurrentUserId(), data['bidAmount']).subscribe(
-            data => {
-              this.openSnackBar("Bid updated","Close");
-            },
-            error => {
-              this.errorMessage = error.status + " : " + error.error;
-              this.openSnackBar(this.errorMessage,"Close");
-            }
-          );
+          if(data) {
+            this.showSpinner=true;
+            this.auctionService.updateBid(product['uid'], this.authService.getCurrentUser(), data['bidAmount']).subscribe(
+              data => {
+                this.openSnackBar("Bid updated","Close");
+                this.loadBids();
+              },
+              error => {
+                this.errorMessage = error.status + " : " + error.error.message;
+                this.openSnackBar(this.errorMessage,"Close");
+              }
+            ).add(() => {
+              this.showSpinner = false;
+            });
+          }       
         }    
       );
+   }
+
+   loadBids() {
+      this.showSpinner=true;
+      this.auctionService.getBids(this.authService.getCurrentUserId()).subscribe(
+        data => {
+          this.bids = data;
+          this.dataSource.data=this.bids;
+        },
+        error => {
+          this.errorMessage = error.message;
+          this.bids = [];
+          this.dataSource.data=this.bids;
+        }
+      ).add(() => {
+        this.showSpinner = false;
+      });
    }
 }

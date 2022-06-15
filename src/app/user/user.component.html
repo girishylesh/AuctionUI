@@ -4,7 +4,6 @@
   <span *ngIf="!regComplete">Complete Registration</span>
 </mat-toolbar>
 <mat-progress-bar mode="indeterminate" *ngIf="showSpinner"></mat-progress-bar>
-<label class="submit-message">{{ submitMessage }}</label>
 <div class="user-form">
   <form [formGroup]="userForm" (ngSubmit)="userSubmit()">   
       <div>
@@ -58,7 +57,7 @@
         </mat-form-field>
     </div>
       <div>
-        <button *ngIf="!regComplete" type="submit" mat-raised-button color="primary" class="btn-space">Complete Registration</button>
+        <button *ngIf="!regComplete" type="submit" mat-raised-button color="primary" class="btn-space" [disabled]="!userForm.valid">Complete Registration</button>
         <button *ngIf="regComplete" type="button" mat-raised-button color="secondary" routerLink="/dashboard">Back</button>
       </div>     
   </form>

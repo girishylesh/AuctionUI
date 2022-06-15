@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatToolbarModule,MatMenuModule, MatIconModule, MatInputModule, MatButtonModule, 
   MatDialogModule, MatSidenavModule, MatListModule, MatDatepickerModule, MatSelectModule,
   MatNativeDateModule, MatExpansionModule, MatTableModule, MatDividerModule, MatProgressBarModule, 
-  MatTooltipModule, MatChipsModule, MatSnackBarModule, MatFormFieldModule} from '@angular/material';
+  MatTooltipModule, MatChipsModule, MatSnackBarModule, MatFormFieldModule, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {FormsModule,ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -67,7 +67,9 @@ import { BiddialogComponent } from './biddialog/biddialog.component';
     AuthenticationService,
     RouterService,
     CanActivateRouteGuard,
-    DatePipe
+    DatePipe,
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+    { provide: MatDialogRef, useValue: {} }
   ],
   entryComponents: [
     BiddialogComponent
