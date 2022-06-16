@@ -61,7 +61,7 @@ export class AuthenticationService {
     localStorage.removeItem('currentUserType');
   }
 
-  isLoggedInUser() {
+  isLoggedInUser(): boolean {
     const helper = new JwtHelperService();
     const token= this.getBearerToken();
     if(token && helper.isTokenExpired(token))
@@ -87,5 +87,9 @@ export class AuthenticationService {
 
   getHeaders() {
      return new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', this.getBearerToken());
+  }
+
+  setIsUserLoggedIn(flag: boolean) {
+    this.isUserLoggedIn.next(flag);
   }
 }

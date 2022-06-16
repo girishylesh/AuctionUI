@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl} from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatSnackBar, MatTableDataSource } from '@angular/material';
 import { AuthenticationService} from '../services/authentication.service';
-import { RouterService } from '../services/router.service';
 import { AuctionService } from '../services/auction.service'
 import { Product } from '../models/product';
 import { DatePipe } from '@angular/common'
@@ -25,7 +24,7 @@ export class ProductComponent implements OnInit {
   showSpinner: Boolean = false;
   showPanel: Boolean = true;
 
-  constructor(private authService: AuthenticationService, private routerService: RouterService,
+  constructor(private authService: AuthenticationService,
     private auctionService: AuctionService,  private _snackBar: MatSnackBar, private datepipe: DatePipe,
     public dialog: MatDialog) { 
       this.isSeller = auctionService.isSeller();
@@ -89,7 +88,6 @@ export class ProductComponent implements OnInit {
 
   placeBid(product: any) {
     const dialogConfig = new MatDialogConfig();
-
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = product;
@@ -104,7 +102,7 @@ export class ProductComponent implements OnInit {
             userUid: this.authService.getCurrentUserId()
           }
           this.showSpinner = true;
-          this.auctionService.placeBid(bid).subscribe(
+          this.auctionService.placeUserBid(bid).subscribe(
             data => {
               this.openSnackBar("Bid placed.","Close");
             },

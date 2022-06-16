@@ -11,16 +11,16 @@ import { AuthenticationService} from '../services/authentication.service';
 })
 export class HeaderComponent implements OnInit {
 
-  isUserLoggedIn: Boolean = false;
+  isLoggedIn: Boolean = false;
 
   constructor( private authService: AuthenticationService, private routerService: RouterService) {
     this.authService.isUserLoggedIn.subscribe(value =>{
-       this.isUserLoggedIn= value;
+       this.isLoggedIn= value;
     });
   }
 
   ngOnInit() {
-    this.isUserLoggedIn= this.authService.isLoggedInUser();
+    this.isLoggedIn= this.authService.isLoggedInUser();
   }
 
   logout() {

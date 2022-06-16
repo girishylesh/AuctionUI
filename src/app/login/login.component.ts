@@ -69,7 +69,7 @@ export class LoginComponent implements OnInit {
         this.errorMessage = '';
         this.authService.setBearerToken(data['token']);
         this.authService.setCurrentUser(data['currentUser']);
-        this.authService.isUserLoggedIn.next(true);       
+        this.authService.setIsUserLoggedIn(true);       
       },
       error => {
         if (error.status === 401) {

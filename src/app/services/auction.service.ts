@@ -41,14 +41,14 @@ export class AuctionService {
     });
   }
 
-  placeBid(data: any) {
+  placeUserBid(data: any) {
     return this.httpClient.post(`${environment.apiEndpoint}/cmd/buyer/place-bid`, data, {
       headers: this.authService.getHeaders(),
       responseType: 'text'
     });
   }
 
-  updateBid(productId: string, buyerEmail: string, bidAmount: Number) {
+  updateUserBid(productId: any, buyerEmail: any, bidAmount: any) {
     return this.httpClient.put(`${environment.apiEndpoint}/cmd/buyer/update-bid/${productId}/${buyerEmail}/${bidAmount}`, {}, {
       headers: this.authService.getHeaders(),
       responseType: 'text'

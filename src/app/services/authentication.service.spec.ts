@@ -1,9 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { AuctionService } from './auction.service';
 import { AuthenticationService } from './authentication.service';
 
-describe('AuctionService', () => {
+describe('AuthenticationService', () => {
   beforeEach(() => {
     const authenticationServiceStub = () => ({
       getCurrentUser: () => ({}),
@@ -11,7 +10,6 @@ describe('AuctionService', () => {
     });
     TestBed.configureTestingModule({
     imports: [HttpClientTestingModule], providers: [
-      AuctionService,
       {
         provide: AuthenticationService,
         useFactory: authenticationServiceStub
@@ -20,7 +18,9 @@ describe('AuctionService', () => {
   })});
 
   it('should be created', () => {
-    const service: AuctionService = TestBed.get(AuctionService);
+    const service: AuthenticationService = TestBed.get(AuthenticationService);
     expect(service).toBeTruthy();
   });
+
+  
 });

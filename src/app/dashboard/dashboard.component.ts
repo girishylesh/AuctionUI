@@ -5,8 +5,6 @@ import { map } from 'rxjs/operators';
 
 import { AuthenticationService} from '../services/authentication.service';
 import { RouterService } from '../services/router.service';
-import { AuctionService } from '../services/auction.service'
-
 
 @Component({
   selector: 'app-dashboard',
@@ -18,8 +16,7 @@ export class DashboardComponent implements OnInit {
   user: String;
 
   constructor(private breakpointObserver: BreakpointObserver, 
-    private authService: AuthenticationService, private routerService: RouterService, 
-    private auctionService: AuctionService) {
+    private authService: AuthenticationService, private routerService: RouterService) {
       if(!this.authService.getCurrentUserId()) {
         this.routerService.routeToUser();
       }

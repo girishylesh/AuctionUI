@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatSnackBar, MatTableDataSource } from '@angular/material';
 import { AuthenticationService} from '../services/authentication.service';
-import { RouterService } from '../services/router.service';
 import { AuctionService } from '../services/auction.service'
 import { Product } from '../models/product';
-import { DatePipe } from '@angular/common'
 import { BiddialogComponent } from '../biddialog/biddialog.component';
 import { ProductBid } from '../models/productbids';
 
@@ -25,8 +23,8 @@ export class BidsComponent implements OnInit {
   isBuyer: boolean;
   showSpinner: Boolean = false;
 
-  constructor(private authService: AuthenticationService, private routerService: RouterService,
-    private auctionService: AuctionService,  private _snackBar: MatSnackBar, private datepipe: DatePipe,
+  constructor(private authService: AuthenticationService,
+    private auctionService: AuctionService,  private _snackBar: MatSnackBar,
     public dialog: MatDialog) { 
       this.isSeller = auctionService.isSeller();
       this.isBuyer = auctionService.isBuyer();
@@ -60,7 +58,7 @@ export class BidsComponent implements OnInit {
         data => {
           if(data) {
             this.showSpinner=true;
-            this.auctionService.updateBid(product['uid'], this.authService.getCurrentUser(), data['bidAmount']).subscribe(
+            this.auctionService.updateUserBid(product['uid'], this.authService.getCurrentUser(), data['bidAmount']).subscribe(
               data => {
                 this.openSnackBar("Bid updated","Close");
                 this.loadBids();

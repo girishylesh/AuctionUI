@@ -44,8 +44,6 @@ import { BiddialogComponent } from './biddialog/biddialog.component';
     MatInputModule,
     MatButtonModule,
     MatDialogModule,
-    MatMenuModule,
-    MatIconModule,
     MatSidenavModule,
     MatListModule,
     MatDatepickerModule,
