@@ -86,7 +86,10 @@ export class AuthenticationService {
   }
 
   getHeaders() {
-     return new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', this.getBearerToken());
+    let httpHeaders = new HttpHeaders();
+    httpHeaders.set('Content-Type', 'application/json');
+    httpHeaders.set('Authorization', this.getBearerToken());
+    return httpHeaders;
   }
 
   setIsUserLoggedIn(flag: boolean) {
