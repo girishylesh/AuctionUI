@@ -1,4 +1,6 @@
-<h2 mat-dialog-title>Place Bid</h2>
+<h2 mat-dialog-title *ngIf="isBidUpdate">Update Bid</h2>
+<h2 mat-dialog-title *ngIf="!isBidUpdate">Place Bid</h2>
+
 
 <mat-dialog-content [formGroup]="bidForm">
   

@@ -84,7 +84,7 @@ export class UserComponent implements OnInit {
       },
       error => {
         if (error.status === 400) {
-          this.errorMessage = "User already exist";
+          this.errorMessage = error.error;
         }else if (error.status === 404) {
           this.errorMessage = "User not found";
         }else {

@@ -9,13 +9,15 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 })
 export class BiddialogComponent implements OnInit {
   bidForm: FormGroup;
+  isBidUpdate: boolean = false
   
   constructor(private bf: FormBuilder,
     private dialogRef: MatDialogRef<BiddialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: any) { 
       let bidAmt: number;
       if(data['isUpdate']) {
-        bidAmt = data['bidAmount']
+        bidAmt = data['bidAmount'];
+        this.isBidUpdate = true;
       } else {
         bidAmt = data['startingPrice']
       }
