@@ -20,4 +20,8 @@ export class RouterService {
     this.router.navigate(['user']);
   }
 
+  routeToProduct() {
+    this.router.navigate(['dashboard/product']);
+  }
+
 }

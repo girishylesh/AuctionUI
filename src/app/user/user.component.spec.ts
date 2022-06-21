@@ -14,7 +14,7 @@ describe('UserComponent', () => {
 
   beforeEach(async(() => {
     const routerServiceStub = () => ({ routeToLogin: () => ({}),
-    routeToDashboard: () =>({}) });
+    routeToProduct: () =>({}) });
     const authenticationServiceStub = () => ({
       isUserLoggedIn: { subscribe: () => ({}) },
       isLoggedInUser: () => ({}),

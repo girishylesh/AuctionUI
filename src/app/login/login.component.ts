@@ -92,7 +92,7 @@ export class LoginComponent implements OnInit {
         this.auctionService.getUser().subscribe(
           data => {
             this.authService.setCurrentUserDetail(data['uid'], data['userType']);
-            this.routerService.routeToDashboard();
+            this.routerService.routeToProduct();
           },
           error => {
             if (error.status === 404) {
