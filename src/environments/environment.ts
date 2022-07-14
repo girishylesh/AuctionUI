@@ -4,9 +4,7 @@
 
 export const environment = {
   production: false,
-  //apiEndpoint: "http://localhost:8091/e-auction/api/v1"
-  apiEndpoint: "https://8cc0admps6.execute-api.us-east-2.amazonaws.com/dev/e-auction/api/v1"
-
+  apiEndpoint: "http://localhost:8094/e-auction/api/v1"
 };
 
 /*
